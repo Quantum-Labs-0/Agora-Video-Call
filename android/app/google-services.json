@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "683515539892",
+    "project_id": "currant-e9b8d",
+    "storage_bucket": "currant-e9b8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683515539892:android:bc7ac6157b52a708ecc2e1",
+        "android_client_info": {
+          "package_name": "com.example.currant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8nmlh4PRIFWfcvvpWc11MnIxCTIuNVy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
