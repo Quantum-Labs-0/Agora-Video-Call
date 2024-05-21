@@ -67,7 +67,7 @@ class _IndexPageState extends State<IndexPage> {
               title: Text('Broadcaster'),
             ),
             RadioListTile(
-              value: ClientRoleType.clientRoleBroadcaster,
+              value: ClientRoleType.clientRoleAudience,
               groupValue: role,
               onChanged: (ClientRoleType? value) {
                 setState(() {
