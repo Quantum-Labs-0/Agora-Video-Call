@@ -1,5 +1,5 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
-import 'package:currant/pages/video_call.dart';
+import 'package:currant/pages/call/video_call.dart';
 import 'package:flutter/material.dart';
 
 class IndexPage extends StatefulWidget {

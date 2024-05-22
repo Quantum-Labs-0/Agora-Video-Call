@@ -1,5 +1,5 @@
 import 'package:currant/firebase_options.dart';
-import 'package:currant/pages/index.dart';
+import 'package:currant/tree.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const IndexPage(),
+      home: const Tree(),
     );
   }
 }

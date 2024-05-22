@@ -1,6 +1,6 @@
 # Project Overview
 
-This project is a video call application enabling real-time video and audio communication, leveraging Agora for video call functionalities. The app is built using Flutter for the front-end and Firebase for the back-end to handle user authentication, user data management, and push notifications.
+This project is a communication application enabling real-time video and audio communication, leveraging Agora for video and audio call functionalities. The app is built using Flutter for the front-end and Firebase for the back-end to handle user authentication, user data management, and push notifications.
 
 # Project Details
 
