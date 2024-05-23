@@ -55,10 +55,14 @@ class _SignInState extends State<SignIn> {
                             : validateEmail = false;
                       });
                       if (validateEmail) {
-                        await FirebaseAuth.instance.signInWithEmailAndPassword(
-                            email: email.text, password: password.text);
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Tree()));
+                        await FirebaseAuth.instance
+                            .signInWithEmailAndPassword(
+                                email: email.text, password: password.text)
+                            .then((value) => Navigator.of(context)
+                                .pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => Tree()),
+                                    (route) => false));
                       }
                     },
                     child: Text('Login')),

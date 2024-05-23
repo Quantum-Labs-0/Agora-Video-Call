@@ -13,11 +13,14 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   bool validateError = false;
   bool creating = false;
   bool validateEmail = false;
+  bool validateName = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,15 @@ class _SignUpState extends State<SignUp> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
+                controller: name,
+                cursorHeight: 20,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 5),
+                    border:
+                        UnderlineInputBorder(borderSide: BorderSide(width: 1)),
+                    label: Text('Name')),
+              ),
+              TextField(
                 controller: email,
                 cursorHeight: 20,
                 decoration: InputDecoration(
@@ -38,6 +50,16 @@ class _SignUpState extends State<SignUp> {
                     border:
                         UnderlineInputBorder(borderSide: BorderSide(width: 1)),
                     label: Text('Email')),
+              ),
+              TextField(
+                controller: phone,
+                cursorHeight: 20,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 5),
+                    border:
+                        UnderlineInputBorder(borderSide: BorderSide(width: 1)),
+                    label: Text('Phone Number')),
               ),
               TextField(
                 controller: password,
@@ -71,14 +93,17 @@ class _SignUpState extends State<SignUp> {
                         password.text != confirmPassword.text
                             ? validateError = true
                             : validateError = false;
+                        name.text.isEmpty
+                            ? validateName = true
+                            : validateName = false;
                       });
-                      print('$validateEmail && $validateError');
 
-                      if (validateEmail && !validateError) {
+                      if (validateEmail && !validateError && !validateName) {
                         setState(() {
                           creating = true;
                         });
-                        CurrantCore().signup(email, password, context);
+                        CurrantCore()
+                            .signup(email, password, name, phone, context);
                         setState(() {
                           creating = false;
                         });

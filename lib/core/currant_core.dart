@@ -6,15 +6,46 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class CurrantCore {
-  signup(TextEditingController email, TextEditingController password,
+  signup(
+      TextEditingController email,
+      TextEditingController password,
+      TextEditingController name,
+      TextEditingController phone,
       BuildContext context) {
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
             email: email.text, password: password.text)
         .then((value) {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      FirebaseFirestore.instance.collection('Profiles').doc(uid).set({
+        'Name': name.text,
+        'Phone': phone.text,
+        'Email': email.text,
+        'Contacts': []
+      });
+    }).then((value) {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => VerifyEmail()));
     });
+  }
+
+  addContact(TextEditingController email, TextEditingController name,
+      TextEditingController phone, BuildContext context) async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance.collection('Profiles').doc(uid).update({
+      'Contacts': FieldValue.arrayUnion([
+        {
+          'Name': name.text,
+          'Phone': phone.text,
+          'Email': email.text,
+          'Date':
+              DateTimeFormat.format(DateTime.now(), format: 'j M Y').toString(),
+          'Time': DateTimeFormat.format(DateTime.now(), format: 'H : i a')
+              .toString()
+        }
+      ])
+    });
+    Navigator.of(context).pop();
   }
 
   bool isEmail(String text) {
