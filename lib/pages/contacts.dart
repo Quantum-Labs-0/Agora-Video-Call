@@ -48,11 +48,13 @@ class _ContactsState extends State<Contacts> {
               if (snapshotProfile.hasData) {
                 final data = snapshotProfile.data!;
                 List myContacts = data['Contacts'];
-                final channelName = '$uid-${const Uuid().v1()}';
+
                 return ListView.builder(
                     itemCount: myContacts.length,
                     itemBuilder: (context, index) {
                       final contact = myContacts[index];
+                      final channelName =
+                          '${data['Email']}-${contact['Email']}';
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
