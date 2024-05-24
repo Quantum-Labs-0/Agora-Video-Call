@@ -129,6 +129,7 @@ class CurrantCore {
     String chatID = 'G-${const Uuid().v1()}';
     FirebaseFirestore.instance.collection('Chats').doc(chatID).set({
       'Chat ID': chatID,
+      'Name': groupNameController.text,
       'Members': [uid],
       'Messages': []
     });

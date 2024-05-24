@@ -1,8 +1,11 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:currant/core/currant_core.dart';
+import 'package:currant/pages/call/video_call.dart';
 import 'package:date_time_format/date_time_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -23,6 +26,18 @@ class _ContactsState extends State<Contacts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.deepPurple[400],
+        title: Row(
+          children: [
+            Text(
+              'Contacts',
+              style: TextStyle(color: Colors.white),
+            )
+          ],
+        ),
+      ),
       body: Container(
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -33,72 +48,84 @@ class _ContactsState extends State<Contacts> {
               if (snapshotProfile.hasData) {
                 final data = snapshotProfile.data!;
                 List myContacts = data['Contacts'];
+                final channelName = '$uid-${const Uuid().v1()}';
                 return ListView.builder(
-                    itemCount: 5,
+                    itemCount: myContacts.length,
                     itemBuilder: (context, index) {
                       final contact = myContacts[index];
-                      return Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => VideoCall(
+                                      channelName: channelName,
+                                      role: ClientRoleType
+                                          .clientRoleBroadcaster))),
                           child: Container(
-                            width: MediaQuery.of(context).size.width / 1.2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                  child: Text(
-                                    contact["Name"],
-                                    style: TextStyle(
-                                        overflow: TextOverflow.ellipsis),
-                                  ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width / 1.2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
+                                      child: Text(
+                                        contact["Name"],
+                                        style: TextStyle(
+                                            overflow: TextOverflow.ellipsis),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.2,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.5,
+                                              child: Text(
+                                                contact["Email"],
+                                                style: TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
+                                              )),
+                                          Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  6,
+                                              child: Center(
+                                                  child:
+                                                      // add text overflow to all text
+                                                      contact['Date'] ==
+                                                              DateTimeFormat.format(
+                                                                      DateTime
+                                                                          .now(),
+                                                                      format:
+                                                                          'j M Y')
+                                                                  .toString()
+                                                          ? Text(
+                                                              contact['Time'],
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            )
+                                                          : Text(
+                                                              contact['Date'],
+                                                              style: TextStyle(
+                                                                  fontSize: 12),
+                                                            ))),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.2,
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                          child: Text(
-                                            contact["Email"],
-                                            style: TextStyle(
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          )),
-                                      Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              6,
-                                          child: Center(
-                                              child:
-                                                  // add text overflow to all text
-                                                  contact['Date'] ==
-                                                          DateTimeFormat.format(
-                                                                  DateTime
-                                                                      .now(),
-                                                                  format:
-                                                                      'j M Y')
-                                                              .toString()
-                                                      ? Text(
-                                                          contact['Time'],
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        )
-                                                      : Text(
-                                                          contact['Date'],
-                                                          style: TextStyle(
-                                                              fontSize: 12),
-                                                        ))),
-                                    ],
-                                  ),
-                                )
-                              ],
+                              ),
                             ),
                           ),
                         ),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:currant/pages/call_logs.dart';
 import 'package:currant/pages/contacts.dart';
+import 'package:currant/pages/groups.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -126,15 +128,20 @@ class _HomeState extends State<Home> {
           animatedIcon: AnimatedIcons.home_menu,
           childPadding: EdgeInsets.only(bottom: 10),
           children: [
-            SpeedDialChild(child: Icon(Icons.groups)), // go to groups page
+            SpeedDialChild(
+                child: Icon(Icons.groups),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Groups()))), // go to groups page
             SpeedDialChild(
               child: Icon(Icons.contacts),
               onTap: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => Contacts())),
             ), // go to contacts page
             SpeedDialChild(
-                child:
-                    Icon(Icons.contact_phone)) // go to video & audio call page
+                child: Icon(Icons.contact_phone),
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        CallLogs()))) // go to video & audio call page
           ],
         ));
   }
