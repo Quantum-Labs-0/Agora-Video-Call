@@ -53,17 +53,39 @@ class _ContactsState extends State<Contacts> {
                     itemCount: myContacts.length,
                     itemBuilder: (context, index) {
                       final contact = myContacts[index];
-                      final channelName =
-                          '${data['Email']}-${contact['Email']}';
+
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => VideoCall(
-                                      channelName: channelName,
-                                      role: ClientRoleType
-                                          .clientRoleBroadcaster))),
+                          onTap: () {
+                            final channelName =
+                                '${data['Email']}-${contact['Email']}';
+                            final callID = const Uuid().v1();
+                            FirebaseFirestore.instance
+                                .collection('Active Calls')
+                                .doc(callID)
+                                .set({
+                              'Channel Name': channelName,
+                              'Call ID': callID,
+                              'Date': DateTimeFormat.format(DateTime.now(),
+                                      format: 'j M Y')
+                                  .toString(),
+                              'Time': DateTimeFormat.format(DateTime.now(),
+                                      format: 'H : i a')
+                                  .toString(),
+                              'Timestmp': DateTimeFormat.format(DateTime.now(),
+                                      format: 'Ymj')
+                                  .toString(),
+                              'Status': true
+                            }).then((value) => Navigator.of(context)
+                                    .push(MaterialPageRoute(
+                                        builder: (context) => VideoCall(
+                                              channelName: channelName,
+                                              role: ClientRoleType
+                                                  .clientRoleBroadcaster,
+                                              callID: callID,
+                                            ))));
+                          },
                           child: Container(
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),

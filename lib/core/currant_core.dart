@@ -29,6 +29,23 @@ class CurrantCore {
     });
   }
 
+  List<String> extractEmails(String inputString) {
+    // Regular expression to match email addresses
+    RegExp emailRegExp =
+        RegExp(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b');
+
+    // Find all matches in the input string
+    Iterable<RegExpMatch> matches = emailRegExp.allMatches(inputString);
+
+    // Extract email addresses from matches
+    List<String> emails = [];
+    for (RegExpMatch match in matches) {
+      emails.add(match.group(0)!);
+    }
+
+    return emails;
+  }
+
   addContact(TextEditingController email, TextEditingController name,
       TextEditingController phone, BuildContext context) async {
     final uid = FirebaseAuth.instance.currentUser!.uid;

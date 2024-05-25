@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class VideoCall extends StatefulWidget {
-  const VideoCall({super.key, required this.channelName, required this.role});
+  const VideoCall(
+      {super.key,
+      required this.channelName,
+      required this.role,
+      required this.callID});
   final String channelName;
   final ClientRoleType role;
+  final String callID;
 
   @override
   State<VideoCall> createState() => _VideoCallState();
